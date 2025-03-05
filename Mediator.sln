@@ -75,8 +75,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mediator.Benchmarks.Large",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ASPNET_Core_Indirect", "ASPNET_Core_Indirect", "{BC759BA5-C064-460E-ACB0-9B2DA12B9284}"
 	ProjectSection(SolutionItems) = preProject
-		samples\apps\ASPNET_Core_Indirect\README.md = samples\apps\ASPNET_Core_Indirect\README.md
 		samples\apps\ASPNET_Core_Indirect\get-weather-forecast.http = samples\apps\ASPNET_Core_Indirect\get-weather-forecast.http
+		samples\apps\ASPNET_Core_Indirect\README.md = samples\apps\ASPNET_Core_Indirect\README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreIndirect.BaseClasses", "samples\apps\ASPNET_Core_Indirect\AspNetCoreIndirect.BaseClasses\AspNetCoreIndirect.BaseClasses.csproj", "{EBB07938-94A7-4349-9D0F-F2A6088EB42E}"
@@ -100,6 +100,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "basic", "basic", "{686F96A2-0D44-4A5B-9A7C-78608D95E5DB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationPublisher", "samples\basic\NotificationPublisher\NotificationPublisher.csproj", "{FF68E713-7FA9-42F4-8D0F-81A4387BECCD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleLibrary", "ConsoleLibrary\ConsoleLibrary.csproj", "{CC819701-46E3-43AC-98F7-F8EAA02F0CF0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -423,6 +425,18 @@ Global
 		{FF68E713-7FA9-42F4-8D0F-81A4387BECCD}.Release|x64.Build.0 = Release|Any CPU
 		{FF68E713-7FA9-42F4-8D0F-81A4387BECCD}.Release|x86.ActiveCfg = Release|Any CPU
 		{FF68E713-7FA9-42F4-8D0F-81A4387BECCD}.Release|x86.Build.0 = Release|Any CPU
+		{CC819701-46E3-43AC-98F7-F8EAA02F0CF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC819701-46E3-43AC-98F7-F8EAA02F0CF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC819701-46E3-43AC-98F7-F8EAA02F0CF0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CC819701-46E3-43AC-98F7-F8EAA02F0CF0}.Debug|x64.Build.0 = Debug|Any CPU
+		{CC819701-46E3-43AC-98F7-F8EAA02F0CF0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CC819701-46E3-43AC-98F7-F8EAA02F0CF0}.Debug|x86.Build.0 = Debug|Any CPU
+		{CC819701-46E3-43AC-98F7-F8EAA02F0CF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC819701-46E3-43AC-98F7-F8EAA02F0CF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC819701-46E3-43AC-98F7-F8EAA02F0CF0}.Release|x64.ActiveCfg = Release|Any CPU
+		{CC819701-46E3-43AC-98F7-F8EAA02F0CF0}.Release|x64.Build.0 = Release|Any CPU
+		{CC819701-46E3-43AC-98F7-F8EAA02F0CF0}.Release|x86.ActiveCfg = Release|Any CPU
+		{CC819701-46E3-43AC-98F7-F8EAA02F0CF0}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -458,6 +472,7 @@ Global
 		{1A16060A-3393-4404-A3AC-63E10B3648DE} = {D7662382-63B6-4E3D-A6CE-8EC19E473265}
 		{686F96A2-0D44-4A5B-9A7C-78608D95E5DB} = {D3569CDD-7E19-429E-B9AD-75CC05F6C4AA}
 		{FF68E713-7FA9-42F4-8D0F-81A4387BECCD} = {686F96A2-0D44-4A5B-9A7C-78608D95E5DB}
+		{CC819701-46E3-43AC-98F7-F8EAA02F0CF0} = {D3569CDD-7E19-429E-B9AD-75CC05F6C4AA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D45B5457-4190-49B6-BF89-7FA5F4C8ABE2}

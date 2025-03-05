@@ -1166,7 +1166,6 @@ internal sealed class CompilationAnalyzer
         }
         else if (expression is ArrayCreationExpressionSyntax arrayCreation)
         {
-            // e.g. "new Assembly[] { typeof(Foo).Assembly, typeof(Bar).Assembly }"
             var initializer = arrayCreation.Initializer;
             if (initializer != null)
             {
@@ -1183,7 +1182,6 @@ internal sealed class CompilationAnalyzer
         }
         else if (expression is ImplicitArrayCreationExpressionSyntax implicitArray)
         {
-            // e.g. "[typeof(Foo).Assembly, typeof(Bar).Assembly]"
             var initializer = implicitArray.Initializer;
             if (initializer != null)
             {
@@ -1198,24 +1196,17 @@ internal sealed class CompilationAnalyzer
             }
             return assemblyNames;
         }
-
-        // If not an array creation, fallback to null
         return null;
     }
 
-    // NEW: Extract the assembly name from a typeof(...) expression, e.g. typeof(Ping).Assembly
     private string? GetAssemblyNameFromTypeOf(
         ExpressionSyntax expression,
         SemanticModel semanticModel,
         CancellationToken cancellationToken
     )
     {
-        // We expect something like "typeof(Ping).Assembly", so expression might be MemberAccessExpressionSyntax
-        // or directly TypeOfExpressionSyntax if user omitted .Assembly (not likely).
-        // We'll parse the type symbol's containing assembly name.
         if (expression is MemberAccessExpressionSyntax memberAccess)
         {
-            // should be "typeof(...)"
             if (memberAccess.Expression is TypeOfExpressionSyntax typeOfExpr)
             {
                 var typeInfo = semanticModel.GetTypeInfo(typeOfExpr.Type, cancellationToken);
@@ -1226,7 +1217,6 @@ internal sealed class CompilationAnalyzer
                 }
             }
         }
-        // fallback
         return null;
     }
 }
