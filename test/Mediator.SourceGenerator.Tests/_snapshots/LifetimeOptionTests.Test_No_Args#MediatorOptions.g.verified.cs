@@ -29,5 +29,11 @@ namespace Mediator
         /// </summary>
         public global::Microsoft.Extensions.DependencyInjection.ServiceLifetime ServiceLifetime { get; set; } =
             global::Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton;
+
+        /// <summary>
+        /// Optional array of marker types to restrict scanning to assemblies containing these types.
+        /// If empty or null, all assemblies in the compilation are scanned (the default behavior).
+        /// </summary>
+        public global::System.Reflection.Assembly[] ScanAssemblies { get; set; } = global::System.Array.Empty<global::System.Reflection.Assembly>();
     }
 }

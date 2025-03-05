@@ -11,6 +11,7 @@ var services = new ServiceCollection();
 services.AddMediator(options =>
 {
     options.Namespace = "SimpleConsole";
+    options.ScanAssemblies = [typeof(Ping).Assembly];
 });
 
 // Standard handlers are added by default, but we need to add pipeline steps manually.

@@ -14,16 +14,16 @@ builder.Services.AddMediator(config =>
 
 var app = builder.Build();
 
-app.MapGet(
-    "/",
-    async ([FromServices] Foo.Generated.Mediator mediator) =>
-    {
-        var id = Guid.NewGuid();
-        var request = new Ping(id);
-        var response = await mediator.Send(request);
-        return Results.Ok(response);
-    }
-);
+//app.MapGet(
+//    "/",
+//    async ([FromServices] Foo.Generated.Mediator mediator) =>
+//    {
+//        var id = Guid.NewGuid();
+//        var request = new Ping(id);
+//        var response = await mediator.Send(request);
+//        return Results.Ok(response);
+//    }
+//);
 
 app.Run();
 

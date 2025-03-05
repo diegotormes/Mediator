@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using DiffEngine;
 using Microsoft.Build.Locator;
 using VerifyTests;
@@ -18,7 +18,7 @@ public static class ModuleInitializer
     {
         _instance ??= MSBuildLocator.RegisterDefaults();
 
-        DiffRunner.Disabled = true;
+        DiffRunner.Disabled = false; //Original value: true
 
         Verifier.DerivePathInfo(
             (file, _, type, method) => new(Path.Join(Path.GetDirectoryName(file), "_snapshots"), type.Name, method.Name)
@@ -26,5 +26,10 @@ public static class ModuleInitializer
 
         VerifySourceGenerators.Initialize();
         VerifyDiffPlex.Initialize(VerifyTests.DiffPlex.OutputType.Compact);
+        //
+        VerifierSettings.InitializePlugins();
+        VerifierSettings.ScrubLinesContaining("DiffEngineTray");
+        VerifierSettings.IgnoreStackTrace();
+        DiffTools.UseOrder(DiffTool.VisualStudioCode, DiffTool.VisualStudio);
     }
 }

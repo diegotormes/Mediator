@@ -1,4 +1,4 @@
-﻿namespace Mediator.SourceGenerator;
+namespace Mediator.SourceGenerator;
 
 internal sealed record NotificationMessageHandlerModel : MessageHandlerModel
 {

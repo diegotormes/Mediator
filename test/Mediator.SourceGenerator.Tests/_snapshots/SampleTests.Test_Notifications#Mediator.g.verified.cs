@@ -62,7 +62,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAdd(new SD(typeof(global::CatchAllNotificationHandler), typeof(global::CatchAllNotificationHandler), global::Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton));
             services.TryAdd(new SD(typeof(global::ConcreteNotificationHandler), typeof(global::ConcreteNotificationHandler), global::Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton));
 
-                        services.Add(new SD(typeof(global::Mediator.INotificationHandler<global::Notification>), GetRequiredService<global::CatchAllNotificationHandler>(), global::Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton));
+            services.Add(new SD(typeof(global::Mediator.INotificationHandler<global::Notification>), GetRequiredService<global::CatchAllNotificationHandler>(), global::Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton));
             services.Add(new SD(typeof(global::Mediator.INotificationHandler<global::Notification>), GetRequiredService<global::ConcreteNotificationHandler>(), global::Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton));
 
             services.Add(new SD(typeof(global::Mediator.INotificationHandler<>), typeof(global::GenericNotificationHandler<>), global::Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton));

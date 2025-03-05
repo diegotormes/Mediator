@@ -73,7 +73,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.TryAdd(new SD(typeof(global::InternalMessages.Application.PingPongedHandler), typeof(global::InternalMessages.Application.PingPongedHandler), global::Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton));
 
-                        services.Add(new SD(typeof(global::Mediator.INotificationHandler<global::InternalMessages.Domain.PingPonged>), GetRequiredService<global::InternalMessages.Application.PingPongedHandler>(), global::Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton));
+            services.Add(new SD(typeof(global::Mediator.INotificationHandler<global::InternalMessages.Domain.PingPonged>), GetRequiredService<global::InternalMessages.Application.PingPongedHandler>(), global::Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton));
 
 
 

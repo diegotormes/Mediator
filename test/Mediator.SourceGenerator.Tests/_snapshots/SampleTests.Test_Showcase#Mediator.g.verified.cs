@@ -74,7 +74,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAdd(new SD(typeof(global::ErrorNotificationHandler), typeof(global::ErrorNotificationHandler), global::Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton));
             services.TryAdd(new SD(typeof(global::StatsNotificationHandler), typeof(global::StatsNotificationHandler), global::Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton));
 
-                        services.Add(new SD(typeof(global::Mediator.INotificationHandler<global::ErrorMessage>), GetRequiredService<global::ErrorNotificationHandler>(), global::Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton));
+            services.Add(new SD(typeof(global::Mediator.INotificationHandler<global::ErrorMessage>), GetRequiredService<global::ErrorNotificationHandler>(), global::Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton));
             services.Add(new SD(typeof(global::Mediator.INotificationHandler<global::ErrorMessage>), GetRequiredService<global::StatsNotificationHandler>(), global::Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton));
             services.Add(new SD(typeof(global::Mediator.INotificationHandler<global::SuccessfulMessage>), GetRequiredService<global::StatsNotificationHandler>(), global::Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton));
 
