@@ -1,4 +1,4 @@
-﻿namespace Mediator.SourceGenerator;
+namespace Mediator.SourceGenerator;
 
 internal record CompilationModel
 {
@@ -7,11 +7,12 @@ internal record CompilationModel
     private readonly ImmutableEquatableArray<RequestMessageHandlerModel> _requestMessageHandlers;
     private readonly ImmutableEquatableArray<NotificationMessageHandlerModel> _notificationMessageHandlers;
 
-    public CompilationModel(string mediatorNamespace, string generatorVersion)
+    public CompilationModel(string mediatorNamespace, string generatorVersion, string extensionMethodNamespace)
     {
         HasErrors = true;
         MediatorNamespace = mediatorNamespace;
         GeneratorVersion = generatorVersion;
+        ExtensionMethodNamespace = extensionMethodNamespace;
         _requestMessages = ImmutableEquatableArray<RequestMessageModel>.Empty;
         _notificationMessages = ImmutableEquatableArray<NotificationMessageModel>.Empty;
         _requestMessageHandlers = ImmutableEquatableArray<RequestMessageHandlerModel>.Empty;
@@ -29,6 +30,7 @@ internal record CompilationModel
         bool hasErrors,
         string mediatorNamespace,
         string generatorVersion,
+        string extensionMethodNamespace,
         string? serviceLifetime,
         string? serviceLifetimeShort,
         string? singletonServiceLifetime,
@@ -46,6 +48,7 @@ internal record CompilationModel
         HasErrors = hasErrors;
         MediatorNamespace = mediatorNamespace;
         GeneratorVersion = generatorVersion;
+        ExtensionMethodNamespace = extensionMethodNamespace;
         ServiceLifetime = serviceLifetime;
         ServiceLifetimeShort = serviceLifetimeShort;
         SingletonServiceLifetime = singletonServiceLifetime;
@@ -112,6 +115,7 @@ internal record CompilationModel
 
     public string MediatorNamespace { get; }
     public string GeneratorVersion { get; }
+    public string ExtensionMethodNamespace { get; }
 
     public string? ServiceLifetime { get; }
 

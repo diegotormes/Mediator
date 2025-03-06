@@ -39,14 +39,15 @@ internal sealed class CompilationAnalyzer
 
     private bool HasErrors { get; set; }
 
-    // NEW: Field to store scan assembly names from MediatorOptions.ScanAssemblies.
-    private ImmutableHashSet<string> _scanAssemblyNames = ImmutableHashSet<string>.Empty;
+    // NEW: Field to store scan assembly names from MediatorOptions.TargetAssemblies.
+    private ImmutableHashSet<string> _targetAssemblies = ImmutableHashSet<string>.Empty;
 
     private INamedTypeSymbol? UnitSymbol;
 
     public Compilation Compilation => _context.Compilation;
 
     public string MediatorNamespace { get; private set; } = Constants.MediatorLib;
+    public string ExtensionMethodNamespace { get; private set; } = Constants.ExtensionMethodNamespace;
 
     private string GeneratorVersion =>
         string.IsNullOrWhiteSpace(_context.GeneratorVersion) ? "1.0.0.0" : _context.GeneratorVersion;
@@ -296,7 +297,7 @@ internal sealed class CompilationAnalyzer
     public CompilationModel ToModel()
     {
         if (HasErrors)
-            return new CompilationModel(MediatorNamespace, GeneratorVersion);
+            return new CompilationModel(MediatorNamespace, GeneratorVersion, ExtensionMethodNamespace);
 
         try
         {
@@ -325,6 +326,7 @@ internal sealed class CompilationAnalyzer
                 HasErrors,
                 MediatorNamespace,
                 GeneratorVersion,
+                ExtensionMethodNamespace,
                 ServiceLifetime,
                 ServiceLifetimeShort,
                 SingletonServiceLifetime,
@@ -340,7 +342,7 @@ internal sealed class CompilationAnalyzer
             _context.ReportGenericError(ex);
             HasErrors = true;
 
-            return new CompilationModel(MediatorNamespace, GeneratorVersion);
+            return new CompilationModel(MediatorNamespace, GeneratorVersion, ExtensionMethodNamespace);
         }
     }
 
@@ -349,7 +351,7 @@ internal sealed class CompilationAnalyzer
         var compilation = _context.Compilation;
 
         // Only enqueue the compilation's assembly if either no scan filter is specified or if its name is in the filter.
-        if (_scanAssemblyNames.IsEmpty || _scanAssemblyNames.Contains(compilation.Assembly.Name))
+        if (_targetAssemblies.IsEmpty || _targetAssemblies.Contains(compilation.Assembly.Name))
         {
             queue.Enqueue(compilation.Assembly.GlobalNamespace);
         }
@@ -376,7 +378,7 @@ internal sealed class CompilationAnalyzer
                 continue;
 
             // When a scan filter is specified, only enqueue assemblies whose names are in the filter.
-            if (!_scanAssemblyNames.IsEmpty && !_scanAssemblyNames.Contains(assemblySymbol.Name))
+            if (!_targetAssemblies.IsEmpty && !_targetAssemblies.Contains(assemblySymbol.Name))
                 continue;
 
             queue.Enqueue(assemblySymbol.GlobalNamespace);
@@ -863,6 +865,13 @@ internal sealed class CompilationAnalyzer
                 if (!string.IsNullOrWhiteSpace(namespaceArg))
                     MediatorNamespace = namespaceArg!;
             }
+            else if (attrFieldName == "ExtensionMethodNamespace")
+            {
+                var extensionMethodNamespace =
+                    semanticModel.GetConstantValue(attrArg.Expression, cancellationToken).Value as string;
+                if (!string.IsNullOrWhiteSpace(extensionMethodNamespace))
+                    ExtensionMethodNamespace = extensionMethodNamespace!;
+            }
             else if (attrFieldName == "NotificationPublisherType")
             {
                 if (attrArg.Expression is not TypeOfExpressionSyntax identifier)
@@ -912,6 +921,32 @@ internal sealed class CompilationAnalyzer
                 if (configuredNamespace is not null)
                 {
                     MediatorNamespace = configuredNamespace;
+                }
+                else
+                {
+                    ReportDiagnostic((in CompilationAnalyzerContext c) => c.ReportInvalidCodeBasedConfiguration());
+                    return false;
+                }
+            }
+            else
+            {
+                ReportDiagnostic((in CompilationAnalyzerContext c) => c.ReportInvalidCodeBasedConfiguration());
+                return false;
+            }
+        }
+        else if (opt == "ExtensionMethodNamespace")
+        {
+            if (assignment.Right is LiteralExpressionSyntax literal)
+            {
+                if (!literal.IsKind(SyntaxKind.NullLiteralExpression))
+                    ExtensionMethodNamespace = literal.Token.ValueText;
+            }
+            else if (assignment.Right is IdentifierNameSyntax identifier)
+            {
+                var configuredNamespace = TryResolveNamespaceIdentifier(identifier, semanticModel, cancellationToken);
+                if (configuredNamespace is not null)
+                {
+                    ExtensionMethodNamespace = configuredNamespace;
                 }
                 else
                 {
@@ -976,18 +1011,15 @@ internal sealed class CompilationAnalyzer
                 return false;
             }
         }
-        else if (opt == "ScanAssemblies")
+        else if (opt == "TargetAssemblies")
         {
-            // NEW: Handle array assignment to `ScanAssemblies`, e.g. options.ScanAssemblies = [typeof(Ping).Assembly];
-            var assemblies = ProcessScanAssembliesExpression(assignment.Right, semanticModel, cancellationToken);
+            var assemblies = ProcessTargetAssembliesExpression(assignment.Right, semanticModel, cancellationToken);
             if (assemblies != null)
             {
-                _scanAssemblyNames = assemblies.ToImmutableHashSet();
+                _targetAssemblies = assemblies.ToImmutableHashSet();
             }
             else
             {
-                // If it's not an array of typeof(...) expressions, we can't parse it as compile-time
-                // so we report the same error
                 ReportDiagnostic((in CompilationAnalyzerContext c) => c.ReportInvalidCodeBasedConfiguration());
                 return false;
             }
@@ -1141,9 +1173,7 @@ internal sealed class CompilationAnalyzer
         HasErrors |= diagnostic.Severity == DiagnosticSeverity.Error;
     }
 
-    // NEW: Helper method to process the ScanAssemblies assignment.
-    // NEW: Helper method to process something like [typeof(Foo).Assembly, typeof(Bar).Assembly].
-    private IEnumerable<string>? ProcessScanAssembliesExpression(
+    private IEnumerable<string>? ProcessTargetAssembliesExpression(
         ExpressionSyntax expression,
         SemanticModel semanticModel,
         CancellationToken cancellationToken

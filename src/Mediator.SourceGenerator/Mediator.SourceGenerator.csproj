@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <IsPackable>true</IsPackable>
+    <PackageId>Eternet.Mediator.SourceGenerator</PackageId>
     <Description>
         A high performance .NET Mediator pattern implemenation using source generation.
     </Description>

@@ -31,9 +31,17 @@ namespace Mediator
             global::Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton;
 
         /// <summary>
-        /// Optional array of marker types to restrict scanning to assemblies containing these types.
-        /// If empty or null, all assemblies in the compilation are scanned (the default behavior).
+        /// Lista opcional de ensamblados a incluir para filtrar los registros a realizar.
+        /// Si la colección está vacía o es nula, se consideran todos los ensamblados disponibles en la compilación.
         /// </summary>
-        public global::System.Reflection.Assembly[] ScanAssemblies { get; set; } = global::System.Array.Empty<global::System.Reflection.Assembly>();
+        public global::System.Reflection.Assembly[] TargetAssemblies { get; set; } = global::System.Array.Empty<global::System.Reflection.Assembly>();
+
+        /// <summary>
+        /// The namespace in which the AddMediator extension method class is generated.
+        /// By default, this is "Microsoft.Extensions.DependencyInjection".
+        /// Setting it to a custom namespace will avoid collisions if the same extension type
+        /// is generated across multiple assemblies.
+        /// </summary>
+        public string ExtensionMethodNamespace { get; set; } = "Microsoft.Extensions.DependencyInjection";
     }
 }

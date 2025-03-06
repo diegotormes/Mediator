@@ -15,7 +15,7 @@ using System.Linq;
 
 using SD = global::Microsoft.Extensions.DependencyInjection.ServiceDescriptor;
 
-namespace Microsoft.Extensions.DependencyInjection
+namespace MyClientExtensions
 {
     /// <summary>
     /// DI extensions for Mediator.

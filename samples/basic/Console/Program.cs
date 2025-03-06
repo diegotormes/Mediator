@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Mediator;
 using Microsoft.Extensions.DependencyInjection;
+using MyClientExtensions;
 
 var services = new ServiceCollection();
 
@@ -11,7 +12,8 @@ var services = new ServiceCollection();
 services.AddMediator(options =>
 {
     options.Namespace = "SimpleConsole";
-    options.ScanAssemblies = [typeof(Ping).Assembly];
+    options.ExtensionMethodNamespace = "MyClientExtensions";
+    options.TargetAssemblies = [typeof(Ping).Assembly];
 });
 
 // Standard handlers are added by default, but we need to add pipeline steps manually.
